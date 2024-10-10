@@ -1,5 +1,5 @@
 import { Link } from "@inertiajs/react"
-import Increment from "../Components/Increment"
+import Increment from "../Components/TodoList"
 
 const Layout = ({children}) => {
 
