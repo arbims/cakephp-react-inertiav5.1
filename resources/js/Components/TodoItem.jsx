@@ -5,12 +5,12 @@ const TodoItem = ({ todo, toggleTodoCompleted }) => {
     };
 
     return (
-        <div>
+        <li>
             <label className={todo.completed ? 'completed' : ''}>
                 <input type="checkbox" checked={todo.completed} onChange={handleCheckboxChange} />
                 {todo.title}
             </label>
-        </div>
+        </li>
     )
 }
 

@@ -5,7 +5,8 @@ const TodoList = () => {
 
     const [newTodo, setNewTodo] = useState('')
     const [todos, setTodos] = useState([])
-
+    const [hideCompleted, setHideCompleted] = useState(false)
+    const [hideTodos, setHideTodos] = useState([])
     const handleChange = (event) => {
         setNewTodo((newTodo) => event.target.value)
     };
@@ -18,14 +19,28 @@ const TodoList = () => {
             date: Date.now()
         }])
         setNewTodo('')
+        setTodos((todos) => todos.sort((a, b) => a.completed > b.completed ? 1 : -1 ))
     }
 
     const toggleTodoCompleted = (date) => {
-        setTodos(todos.map(todo =>
+        
+        setTodos((todos) => todos.map(todo =>
             todo.date === date ? { ...todo, completed: !todo.completed } : todo
         ));
+        setTodos((todos) => todos.sort((a, b) => a.completed > b.completed ? 1 : -1 ))
     };
     
+    const handlHideCompleted = () => {
+        setHideCompleted((hideCompleted) => !hideCompleted)
+        if (!hideCompleted === true) {
+            setTodos(todos.filter(t => t.completed == false))
+            setHideTodos(todos.filter(t => t.completed == true))
+        } else {
+            setTodos((todos) => [ ...todos, ...hideTodos])
+            setHideTodos([])
+        }
+    }
+
     return (
         <>
             <form onSubmit={addTodo}>
@@ -35,9 +50,15 @@ const TodoList = () => {
                 </fieldset>
             </form>
             <div>
+                <ul>
                 {todos.map(todo => (
                     <TodoItem todo={todo} key={todo.date} toggleTodoCompleted={toggleTodoCompleted}></TodoItem>
                 ))}
+                </ul>
+                <label>
+                    <input type="checkbox" checked={hideCompleted} onChange={handlHideCompleted}/>
+                    Masquer les taches complete
+                </label>
             </div>
         </>
     )
