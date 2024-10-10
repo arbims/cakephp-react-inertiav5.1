@@ -22,16 +22,24 @@ const TodoList = () => {
         setTodos((todos) => todos.sort((a, b) => a.completed > b.completed ? 1 : -1 ))
     }
 
+    const findTodo = (title) => {
+        return todos.find(todo => todo.title === title);
+    }
+
     const toggleTodoCompleted = (date) => {
-        
         setTodos((todos) => todos.map(todo =>
             todo.date === date ? { ...todo, completed: !todo.completed } : todo
         ));
         setTodos((todos) => todos.sort((a, b) => a.completed > b.completed ? 1 : -1 ))
+        if (hideCompleted === true) {
+            let todo = {...todos.find(todo => todo.date === date)}
+            todo.completed = true
+            setHideTodos((hideTodos) => [...hideTodos , todo])
+            setTodos((todos) => todos.filter(t => t.completed == false))
+        }
     };
-    
-    const handlHideCompleted = () => {
-        setHideCompleted((hideCompleted) => !hideCompleted)
+
+    const updateListe = () => {
         if (!hideCompleted === true) {
             setTodos(todos.filter(t => t.completed == false))
             setHideTodos(todos.filter(t => t.completed == true))
@@ -39,6 +47,11 @@ const TodoList = () => {
             setTodos((todos) => [ ...todos, ...hideTodos])
             setHideTodos([])
         }
+    }
+    
+    const handlHideCompleted = () => {
+        setHideCompleted((hideCompleted) => !hideCompleted)
+        updateListe()
     }
 
     return (
