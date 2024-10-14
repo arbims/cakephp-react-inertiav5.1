@@ -13,13 +13,15 @@ const TodoList = () => {
 
     const addTodo = (e) => {
         e.preventDefault()
-        setTodos((todos) => [...todos, {
-            title: newTodo,
-            completed: false,
-            date: Date.now()
-        }])
-        setNewTodo('')
-        setTodos((todos) => todos.sort((a, b) => a.completed > b.completed ? 1 : -1 ))
+        if (newTodo) {
+            setTodos((todos) => [...todos, {
+                title: newTodo,
+                completed: false,
+                date: Date.now()
+            }])
+            setNewTodo('')
+            setTodos((todos) => todos.sort((a, b) => a.completed > b.completed ? 1 : -1 ))
+        }
     }
 
     const findTodo = (title) => {
